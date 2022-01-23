@@ -1,12 +1,15 @@
+import Footer from './Components/Footer';
+import Header from './Components/Header';
 
-import './styles/Default.css';
-import Home from './Pages/Home/Index';
-
-export default function App  () => {
+function App() {
   return (
     <>
-      <Home />
+     <Footer/>
+     <Header /> 
+  
     </>
   );
 }
+
+export default App;
 
