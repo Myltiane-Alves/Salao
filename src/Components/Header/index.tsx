@@ -17,6 +17,9 @@ const Header = () => {
                     <li><a href="">Agendamento</a></li>
 
                 </ul>
+                <div className="footer">
+                    <button type="button">Login</button>
+                </div>
             </nav>
           </Container>  
         </>
