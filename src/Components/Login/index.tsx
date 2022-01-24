@@ -1,9 +1,8 @@
-import { useRef  } from 'react';
-import * as Yup from 'yup';
+import { useCallback, useRef  } from 'react';
+
 import { FormHandles, SubmitHandler } from '@unform/core';
 import { Form } from '@unform/web';
 
-import { useAuth } from '../../Hooks/auth';
 import 
 {
     Container,
@@ -13,19 +12,17 @@ import
  from './styled';
 import Input from '../Input';
 
-interface InputProps {
-    name: string;
+interface FormData {
     email: string;
+    password: string;
 }
 
 const SignIn: React.FC = () => {
- 
     const formRef = useRef<FormHandles>(null);
 
     const handleSubmit: SubmitHandler<FormData> = data => {
         console.log(formRef)
-    };
-
+    }
     return(
         <>
           <Container>
@@ -36,16 +33,17 @@ const SignIn: React.FC = () => {
                     name="email" 
                     type="email"
                     placeholder="E-mail"
-                    required
-                    
+                    required  
+              
                   />
 
                   <Input 
+               
                     name="password"
                     type="password"
                     placeholder="Senha"
                     required
-                    
+ 
                   />
 
                   <Button type="submit"> Accesar</Button>

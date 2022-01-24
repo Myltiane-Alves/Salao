@@ -1,4 +1,6 @@
-import { createContext, useCallback, useContext, useState } from "react";
+/*
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import api from '../Services/api';
 
 interface IUser {
     id: string;
@@ -17,17 +19,18 @@ interface ISignInCredentials {
     password: string;
 }
 
-interface IAuthContext {
+interface IAuthContextData {
     user: IUser,
     signIn(credentials: ISignInCredentials): Promise<void>;
     signOut(): void;
 }
 
-const AuthContext = createContext<IAuthContext>({} as IAuthContext);
+const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
     const [data, setData] = useState<IAuthState>({} as AuthState); 
- 
+    
+    
     const signIn = useCallback(async ({email, password}) => {
         const response = await api.post('sessions', {
             email,
@@ -48,23 +51,25 @@ const AuthProvider: React.FC = ({ children }) => {
     }, [])
 
 
-    const signOut = () => {
+    const signOut = useCallback(async () => {
         await localStorage.removeItem('@salao:logged');
         
         setData({} as IAuthState);
     }, [])
 
     return(
-        <AuthContext.Provider value={{user: data.user, signIn, signOut}}>
+        <AuthContext.Provider
+            value={{user: data.user, signIn, signOut}}
+        >
             {children}
         </AuthContext.Provider>
     )
 }
 
-function useAuth(): IAuthContext {
+function useAuth(): IAuthContextData {
     const context = useContext(AuthContext);
 
     return context;
 }
 
-export { AuthProvider, useAuth };
+export { AuthProvider, useAuth };*/
