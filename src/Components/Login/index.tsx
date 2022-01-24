@@ -1,39 +1,51 @@
-import { useState } from 'react';
+import { useRef  } from 'react';
+import * as Yup from 'yup';
+import { FormHandles, SubmitHandler } from '@unform/core';
+import { Form } from '@unform/web';
+
 import { useAuth } from '../../Hooks/auth';
 import 
 {
     Container,
-    Form,
     Title,
-    Input,
     Button
 }
  from './styled';
+import Input from '../Input';
+
+interface InputProps {
+    name: string;
+    email: string;
+}
 
 const SignIn: React.FC = () => {
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
+ 
+    const formRef = useRef<FormHandles>(null);
 
-    const { signIn  } = useAuth();
+    const handleSubmit: SubmitHandler<FormData> = data => {
+        console.log(formRef)
+    };
 
     return(
         <>
           <Container>
-              <Form onSubmit={() => signIn(email, password)}>
+              <Form ref={formRef} onSubmit={handleSubmit}>
                   <Title>Entrar</Title>
 
-                  <Input 
+                  <Input
+                    name="email" 
                     type="email"
                     placeholder="E-mail"
                     required
-                    onChange={(e) => setEmail(e.target.value)}
+                    
                   />
 
                   <Input 
+                    name="password"
                     type="password"
                     placeholder="Senha"
                     required
-                    onChange={(e) => setPassword(e.target.value)}
+                    
                   />
 
                   <Button type="submit"> Accesar</Button>
