@@ -1,14 +1,12 @@
-import Header from './Components/Header';
-import Login from './Components/Login';
 import Footer from './Components/Footer';
+import Header from './Components/Header';
+
+
 
 function App() {
   return (
     <>
-    
      <Header />
-    
-  
     </>
   );
 }
