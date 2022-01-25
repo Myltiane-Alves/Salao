@@ -10,15 +10,24 @@ const Header = () => {
         <>
           <Container>
             <nav>
-                <ul>
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Sobre</a></li>
-                    <li><a href="">Contato</a></li>
-                    <li><a href="">Agendamento</a></li>
+           
+            
+                <div className="desktop">
+                    <ul>
+                        <li><a href="">Home</a></li>
+                        <li><a href="">Sobre</a></li>
+                        <li><a href="">Contato</a></li>
+                        <li><a href="">Agendamento</a></li>
+                        <li><a href="">Home</a></li>
+                        <li><a href="">Sobre</a></li>
+                        <li><a href="">Contato</a></li>
+                        <li><a href="">Agendamento</a></li>
 
-                </ul>
-                <div className="footer">
-                    <button type="button">Login</button>
+                    <div className="footer">
+                        <button type="button">Login</button>
+                    </div>
+                    </ul>
+
                 </div>
             </nav>
           </Container>  
@@ -27,3 +36,23 @@ const Header = () => {
 }
 
 export default Header;
+
+/*
+
+     <div className="overlay"></div>
+                <ul>
+                    <li><a href="">Home</a></li>
+                    <li><a href="">Sobre</a></li>
+                    <li><a href="">Contato</a></li>
+                    <li><a href="">Agendamento</a></li>
+                    <li><a href="">Home</a></li>
+                    <li><a href="">Sobre</a></li>
+                    <li><a href="">Contato</a></li>
+                    <li><a href="">Agendamento</a></li>
+
+                <div className="footer">
+                    <button type="button">Login</button>
+                </div>
+                </ul>
+
+*/
