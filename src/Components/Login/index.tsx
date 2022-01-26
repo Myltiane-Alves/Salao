@@ -1,4 +1,4 @@
-import { useCallback, useRef  } from 'react';
+import { FormEvent, useCallback, useContext, useRef, useState  } from 'react';
 
 import { FormHandles, SubmitHandler } from '@unform/core';
 import { Form } from '@unform/web';
@@ -11,6 +11,7 @@ import
 }
  from './styled';
 import Input from '../Input';
+import { AuthContext } from '../../Context/AuthContext';
 
 interface FormData {
     email: string;
@@ -18,10 +19,20 @@ interface FormData {
 }
 
 const SignIn: React.FC = () => {
+    const [email, setEmail] = useState('')
+    const [password, setPassaword] = useState('');
     const formRef = useRef<FormHandles>(null);
 
-    const handleSubmit: SubmitHandler<FormData> = data => {
-        console.log(formRef)
+    const { signIn } = useContext(AuthContext);
+
+    async function handleSubmit(event: FormEvent) {
+        
+        const data = {
+            email,
+            password
+        }
+        await signIn(data);
+        console.log(signIn)
     }
     return(
         <>
@@ -34,7 +45,7 @@ const SignIn: React.FC = () => {
                     type="email"
                     placeholder="E-mail"
                     required  
-              
+                    value={email} onChange={e => setEmail(e.target.value)}
                   />
 
                   <Input 
@@ -43,7 +54,7 @@ const SignIn: React.FC = () => {
                     type="password"
                     placeholder="Senha"
                     required
- 
+                    value={password} onChange={e => setPassaword(e.target.value)}
                   />
 
                   <Button type="submit"> Accesar</Button>

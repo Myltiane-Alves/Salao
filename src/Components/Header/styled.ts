@@ -19,6 +19,7 @@ export const Content = styled.header`
     
     > div {
         width: 100%;
+        margin-top: 2rem;
         .logo {
             width: 100%;
             font-size: 1.5rem;
