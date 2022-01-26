@@ -71,10 +71,43 @@ export const AuthProvider: React.FC = ({ children }) => {
     const signIn = useCallback(async ({email, password }) => {
         const dataLogin = localStorage.getItem('@salao:user');
         const tokenUuid = uuid();
-    }
+
+        if(dataLogin) {
+            const user: User = JSON.parse(dataLogin);
+            if (user.email === email && user.password === password) {
+                localStorage.setItem('@salao:token', tokenUuid);
+                setToken({ token: tokenUuid });
+            }
+        }
+    }, []);
     
+    const signOut = useCallback(() => {
+        localStorage.removeItem('@salao:token');
+    
+        setToken({ token: '' });
+    }, []);
+
+    const createUser = useCallback(
+        (user: User) => {
+            setData({
+                user,
+            });
+            localStorage.setItem('@salao:user', JSON.stringify(user));
+        },
+        [setData],
+    );
+
     return(
-        <AuthContext.Provider value={{ signIn, signOut}}>
+        <AuthContext.Provider 
+            value={{
+                token,
+                user: data.user,
+                signIn,
+                signOut,
+                createUser
+            }}
+                
+        >
             {children}
         </AuthContext.Provider>
     )
