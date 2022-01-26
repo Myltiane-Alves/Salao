@@ -2,38 +2,56 @@ import { FormEvent, useCallback, useContext, useRef, useState  } from 'react';
 
 import { FormHandles, SubmitHandler } from '@unform/core';
 import { Form } from '@unform/web';
-
-import 
-{
-    Container,
-    Title,
-    Button
-}
- from './styled';
+import * as Yup from 'yup';
+import { Container, Title, Button } from './styled';
 import Input from '../Input';
 import { AuthContext } from '../../Context/AuthContext';
+import { useHistory } from 'react-router-dom';
+import getValidationErrors from '../../utils/getValidationError';
 
-interface FormData {
+interface SignFormData {
     email: string;
     password: string;
 }
 
 const SignIn: React.FC = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassaword] = useState('');
-    const formRef = useRef<FormHandles>(null);
+    const { signIn } = useContext(AuthContext);   
+    const history = useHistory();
 
-    const { signIn } = useContext(AuthContext);
+    const formRef = useRef<FormHandles>(null);  
 
-    async function handleSubmit(event: FormEvent) {
+
+    const handleSubmit = useCallback(
+        async (data: SignFormData): Promise<void> => {
+            try {
+                formRef.current?.setErrors({});
+
+                const schema = Yup.object().shape({
+                  email: Yup.string()
+                    .required('Email obrigatório')
+                    .email('Digite um e-mail válido'),
+                  password: Yup.string().required('A senha deve ser preenchida'),
+                });
         
-        const data = {
-            email,
-            password
-        }
-        await signIn(data);
-        console.log(signIn)
-    }
+                await schema.validate(data, {
+                  abortEarly: false,
+                });
+        
+                await signIn({ email: data.email, password: data.password });
+            } catch (err) {
+                if (err instanceof Yup.ValidationError) {
+                    const errors = getValidationErrors(err);
+          
+                    formRef.current?.setErrors(errors);
+            
+                }
+            }    
+        },
+        [signIn, history]
+    );
+        
+        
+    
     return(
         <>
           <Container>
@@ -44,17 +62,14 @@ const SignIn: React.FC = () => {
                     name="email" 
                     type="email"
                     placeholder="E-mail"
-                    required  
-                    value={email} onChange={e => setEmail(e.target.value)}
+                    required               
                   />
 
-                  <Input 
-               
+                  <Input            
                     name="password"
                     type="password"
                     placeholder="Senha"
-                    required
-                    value={password} onChange={e => setPassaword(e.target.value)}
+                    required             
                   />
 
                   <Button type="submit"> Accesar</Button>

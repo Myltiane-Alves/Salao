@@ -1,11 +1,20 @@
-import { createContext, ReactNode } from "react"
+import { createContext, ReactNode, useCallback, useState } from "react"
 import api from "../Services/api";
-
+import { v4 as uuid } from 'uuid';
 
 type User = {
-    email:string;
-    permissions: string[];
-    roles: string[];
+    id: string;
+    name: string;
+    cpf: number;
+    birthdate: number;
+    cep: string;
+    state: string;
+    city: string;
+    neighborhood: string;
+    street: string;
+    number?: number;
+    email: string;
+    password: string;
 }
 
 
@@ -15,32 +24,53 @@ type SignInCredentials = {
 }
 
 type AuthContextData = {
+    token: { token: string };
+    user: User;
     signIn: (credentials: SignInCredentials) => Promise<void>
     signOut: () => void;
+    createUser(user: User): void;
 }
-type AuthProviderProps = {
-    children: ReactNode;
+type AuthState = {
+    user: User;
 }
 
-export const AuthContext = createContext({} as AuthContextData);
+interface AuthStateToken {
+    token: string;
+}
+  
+
+export const AuthContext = createContext<AuthContextData>(
+    {} as AuthContextData,
+);
 
 export function signOut() {
    
 }
 
-export function AuthProvider({ children }: AuthProviderProps) {
+export const AuthProvider: React.FC = ({ children }) => {
+    const [token, setToken] = useState<AuthStateToken>(() => {
+        const tokenData = localStorage.getItem("@salao:token");
 
-    async function signIn({email, password }: SignInCredentials) {
-        try {
-            const response = await api.post('sessions', {
-                email,
-                password
-            });
-    
-            const { token } = response.data;
-        } catch (err) {
-            console.log(err)
+        if (tokenData) {
+            return {token: tokenData};
         }
+
+        return {} as AuthStateToken;
+    });
+
+    const [data, setData] = useState<AuthState>(() => {
+        const user = localStorage.getItem('@salao:user');
+    
+        if (user) {
+          return { user: JSON.parse(user) };
+        }
+    
+        return {} as AuthState;
+    });
+
+    const signIn = useCallback(async ({email, password }) => {
+        const dataLogin = localStorage.getItem('@salao:user');
+        const tokenUuid = uuid();
     }
     
     return(
